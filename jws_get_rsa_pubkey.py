@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """This script attempts to find out the RSA public key used to sign two different JWS's. 
-Works for the RS256, RS384 and RS512 algorithms. May take around a minute to compute."""
+Works for the RS256, RS384 and RS512 algorithms."""
 
 from gmpy2 import gcd, mpz
 
@@ -149,7 +149,7 @@ def main():
   parser = ArgumentParser(
     description='This script attempts to find out the RSA public key used to sign two different JWS\'s.' \
                +'works for the RS256, RS384 and RS512 algorithms. May take around a minute to compute.')
-  parser.add_argument('-e', type=int, help=f'RSA public key exponent. If omitted, will try the most common values.')
+  parser.add_argument('-e', type=int, help=f'RSA public key exponent. If omitted, the most common values will be tried.')
   parser.add_argument('-f', action='store_true', help='Treat jws1 and jws2 as file names instead of JWS strings directly passed as arguments.')
   parser.add_argument('jws1', help='First JWS object.')
   parser.add_argument('jws2', help='Second JWS object, signed by the same key but with a different payload.')
