@@ -6,7 +6,7 @@ Works for the RS256, RS384 and RS512 algorithms."""
 from gmpy2 import gcd, mpz
 
 from base64 import urlsafe_b64encode, urlsafe_b64decode
-from argparse import ArgumentParser
+from argparse import ArgumentParser, FileType
 from math import log2, ceil
 from threading import Thread, Event
 import hashlib, json, re, sys, time
@@ -151,6 +151,7 @@ def main():
                +'Works for the RS256, RS384 and RS512 algorithms. May take around a minute to compute.')
   parser.add_argument('-e', type=int, help=f'RSA public key exponent. If omitted, the most common values will be tried.')
   parser.add_argument('-f', action='store_true', help='Treat jws1 and jws2 as file names instead of JWS strings directly passed as arguments.')
+  parser.add_argument('-o', type=FileType('w'), metavar='JWK_FILE', default=sys.stdout, help='Output file for the computed public key, in JWK format. Default is stdout.')
   parser.add_argument('jws1', help='First JWS object.')
   parser.add_argument('jws2', help='Second JWS object, signed by the same key but with a different payload.')
   args = parser.parse_args()
@@ -165,7 +166,7 @@ def main():
 
   print(f'Computing public key. This may take a minute...', file=sys.stderr)
   try:
-    print(find_jws_pubkey(jws1, jws2, args.e))
+    print(find_jws_pubkey(jws1, jws2, args.e), file=args.o)
   except Exception as ex:
     print(f'Error: {ex}', file=sys.stderr)
     sys.exit(1)
