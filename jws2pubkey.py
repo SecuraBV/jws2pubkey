@@ -28,7 +28,7 @@ def numeric_find_n(m1, s1, m2, s2, e):
   s1 = mpz(s1)
   s2 = mpz(s2)
   lower_bound = mpz(max(m1, s1, m2, s2))
-  upper_bound = mpz(2) ** lower_bound.bit_length()
+  upper_bound = mpz(2) ** ((lower_bound.bit_length() + 7) // 8 * 8)
 
   # s**e - m is a multiple of n; compute gcd of two of them to get a multiple that's probably quite small.
   xN = gcd(s1**e - m1, s2**e - m2)
