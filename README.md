@@ -18,8 +18,17 @@ quite useful for the aforementioned use cases.
 Given two distinct JWS's signed with the same key using one of the `RS*` algorithms, this tool will compute the public 
 key and output it in JWK format.
 
-Installation
-------------
+Docker quickstart
+-----------------
+
+Given two JWS objects JWS1 and JWS2, simply run the following to compute the key:
+
+```
+docker run -it ttervoort/jws_get_rsa_pubkey JWS1 JWS2
+```
+
+Local installation
+------------------
 
 The script was succesfully tested with Python 3.10 and has a single dependency on GMP which can be downloaded as 
 follows (create a virtualenv if needed):
@@ -28,11 +37,6 @@ follows (create a virtualenv if needed):
 pip install -r requirements.txt
 ```
 
-If you prefer to run the tool from a Docker container, you can simply build it as follows:
-
-```
-docker build -t jws_get_rsa_pubkey .
-```
 
 Usage
 -----
@@ -69,7 +73,8 @@ Computing public key. This may take a minute...
 Docker example:
 
 ```
-$ sudo docker run -it jws_get_rsa_pubkey $(cat sample-jws/sample1.txt) $(cat sample-jws/sample2.txt)
+$ docker run -it ttervoort/jws_get_rsa_pubkey "$(cat sample-jws/sample1.txt)" "$(cat sample-jws/sample2.txt)"
 Computing public key. This may take a minute...
 {"kty": "RSA", "n": "sEFRQzskiSOrUYiaWAPUMF66YOxWymrbf6PQqnCdnUla8PwI4KDVJ2XgNGg9XOdc-jRICmpsLVBqW4bag8eIh35PClTwYiHzV5cbyW6W5hXp747DQWan5lIzoXAmfe3Ydw65cXnanjAxz8vqgOZP2ptacwxyUPKqvM4ehyaapqxkBbSmhba6160PEMAr4d1xtRJx6jCYwQRBBvZIRRXlLe9hrohkblSrih8MdvHWYyd40khrPU9B2G_PHZecifKiMcXrv7IDaXH-H_NbS7jT5eoNb9xG8K_j7Hc9mFHI7IED71CNkg9RlxuHwELZ6q-9zzyCCcS426SfvTCjnX0hrQ", "e": "AQAB"}
 ```
+

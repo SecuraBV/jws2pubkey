@@ -24,7 +24,7 @@ def numeric_find_n(m1, s1, m2, s2, e):
   # Returns None on failure, meaning the e value is most likely incorrect.
   # Uses GMP for bigint operations, since it's a lot faster than built-in Python bigints.
   
-  # Find upper and lower bounds for n. Assuming the key's maximum bit length is a power of two.
+  # Find upper and lower bounds for n, assuming the key's bit length is a power of two.
   s1 = mpz(s1)
   s2 = mpz(s2)
   lower_bound = mpz(max(m1, s1, m2, s2))
@@ -81,7 +81,7 @@ def pkcs1v15_encode(hasher, msg, outlen):
 def find_pkcs1v15_pubkey(msg1, sig1, msg2, sig2, hasher, exponent=None):
   # Computes RSA public key given two messages and their PKCS1v1.5 signatures. 
   # Should be fast and succeed in the majority of cases.
-  # Tries a few common e values if none is set. Returns None on failure.
+  # Tries a few common e values if None is set.
   # Returns integers (n, e) on success. Returns None on failure.
   
   # Convert/hash bytes to bigints.
@@ -125,7 +125,7 @@ def find_jws_pubkey(jws1, jws2, exponent=None):
   if h1j['alg'] != h2j['alg']:
     raise Exception('JWS\'s do not use the same algorithm.')
   if h1j.get('kid') != h2j.get('kid'):
-    raise Exception('JWS\'s do not use the same key.')
+    raise Exception('JWS\'s have different Key IDs.')
 
   # This only works for RS* algorithms.
   algmatch = re.match(r'RS(?P<shabits>256|384|512)', h1j['alg'])
@@ -147,8 +147,8 @@ def find_jws_pubkey(jws1, jws2, exponent=None):
 
 def main():
   parser = ArgumentParser(
-    description='This script attempts to find out the RSA public key used to sign two different JWS\'s.' \
-               +'works for the RS256, RS384 and RS512 algorithms. May take around a minute to compute.')
+    description='This script attempts to find out the RSA public key used to sign two different JWS\'s. ' \
+               +'Works for the RS256, RS384 and RS512 algorithms. May take around a minute to compute.')
   parser.add_argument('-e', type=int, help=f'RSA public key exponent. If omitted, the most common values will be tried.')
   parser.add_argument('-f', action='store_true', help='Treat jws1 and jws2 as file names instead of JWS strings directly passed as arguments.')
   parser.add_argument('jws1', help='First JWS object.')
