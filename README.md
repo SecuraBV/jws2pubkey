@@ -7,8 +7,7 @@ in some cases, such as:
 
 - To perform an [HMAC/RSA algorithm confusion attack](https://portswigger.net/web-security/jwt/algorithm-confusion).
 - To perform a [sign/encrypt confusion attack](https://www.blackhat.com/us-23/briefings/schedule/index.html#three-new-attacks-against-json-web-tokens-31695).
-- To verify whether a key is reused in different contexts.
-- To determine RSA key size.
+- To verify whether the same key is reused in different contexts, possibly enabling cross-environment attacks.
 
 The `RS256`, `RS384` and `RS512` algorithms use RSA with PKCS#1 v1.5 padding as their signature scheme. This has the 
 property that you can compute the public key given two different messages and accompanying signatures. While this is 
